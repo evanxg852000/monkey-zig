@@ -2,6 +2,7 @@ const std = @import("std");
 const lexer = @import("./lexer.zig");
 const token = @import("./token.zig");
 const parser = @import("./parser.zig");
+const eval = @import("./eval.zig");
 
 const Allocator = std.mem.Allocator;
 
@@ -19,7 +20,7 @@ pub fn start(allocator: Allocator, reader: anytype, writer: anytype) !void {
             var psr = parser.Parser.new(allocator, &lxr);
             defer psr.deinit();
 
-            var program = try psr.parseProgram();
+            const program = try psr.parseProgram();
             const errors = psr.getErrors();
             if (errors.len > 0) {
                 for (errors) |err| {
@@ -28,8 +29,9 @@ pub fn start(allocator: Allocator, reader: anytype, writer: anytype) !void {
                 continue;
             }
 
-            try program.toString(writer);
-            try writer.print("\n", .{});
+            const result = try eval.eval_program(program);
+            try result.inspect(writer);
+            _ = try writer.write("\n");
         } else {
             break;
         }

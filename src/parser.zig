@@ -472,7 +472,8 @@ fn freeExprPointer(allocator: Allocator, expr: ast.Expression) void {
                         else => {},
                     }
                 }
-                (&alternative).deinit();
+                // (&alternative).deinit();
+                alternative.deinit();
             }
         },
         .function => |function| {
@@ -952,18 +953,7 @@ test "TestCallExpressionParsing" {
     try testing.expectEqualStrings("add", callExpr.function.tokenLiteral());
 }
 
-// ----------------
-fn testLetStatement(node: ast.Node, name: []const u8) !void {
-    try testing.expectEqualStrings("let", node.tokenLiteral());
-    // try testing.expectEqual(ast.Statement.letStmt, node);
-    _ = name;
-
-    // const letStatement = node.statement.letStmt;
-    // try testing.expectEqualStrings(name, letStatement.name.value);
-    // try testing.expectEqualStrings(name, letStatement.name.tokenLiteral());
-}
-
-fn checkErrors(errors: [][]const u8) !void {
+pub fn checkErrors(errors: [][]const u8) !void {
     for (errors) |err| {
         std.debug.print("-> {s}\n", .{err});
     }

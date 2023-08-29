@@ -13,3 +13,12 @@ pub fn main() !void {
     try stdout.print("Feel free to type in commands\n", .{});
     try repl.start(allocator, stdin, stdout);
 }
+
+test {
+    _ = @import("./token.zig");
+    _ = @import("./lexer.zig");
+    _ = @import("./parser.zig");
+    _ = @import("./ast.zig");
+    _ = @import("./eval.zig");
+    _ = @import("./repl.zig");
+}

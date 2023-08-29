@@ -42,28 +42,6 @@ pub const Program = struct {
     }
 };
 
-// Node has been deem to be unworthy
-// pub const Node = union(enum) {
-//     const Self = @This();
-
-//     statement: Statement,
-//     expression: Expression,
-
-//     pub fn tokenLiteral(self: *const Self) []const u8 {
-//         return switch (self.*) {
-//             .statement => |stmt| stmt.tokenLiteral(),
-//             .expression => |expr| expr.tokenLiteral(),
-//         };
-//     }
-
-//     pub fn toString(self: *const Self, writer: anytype) !void {
-//         return switch (self.*) {
-//             .statement => |stmt| stmt.toString(writer),
-//             .expression => |expr| expr.toString(writer),
-//         };
-//     }
-// };
-
 pub const Statement = union(enum) {
     const Self = @This();
 
@@ -72,6 +50,7 @@ pub const Statement = union(enum) {
     exprStmt: ExpressionStatement,
 
     pub fn tokenLiteral(self: *const Self) []const u8 {
+        //return self.tokenLiteral();
         return switch (self.*) {
             .letStmt => |letStmt| letStmt.tokenLiteral(),
             .returnStmt => |returnStmt| returnStmt.tokenLiteral(),
